@@ -5354,7 +5354,7 @@ router.post('/Save_Student_Document',
 		  {   
 			"Student_Document_Id":req.body.Student_Document_Id,
 			"Student_Id": req.body.Student_Id,
-			"Image":Image,
+			"Image":req.body.File_Path,
 			"File_Name":req.body.File_Name,
 			"Description":req.body.Description,
 			"Document_Id":req.body.Document_Id,
