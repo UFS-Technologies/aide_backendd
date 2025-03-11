@@ -10,6 +10,7 @@ Student_Document.Save_Student_Document(req.body, function (err, rows)
  {
   if (err) 
   {
+    console.log(err)
   res.json(err);
   }
   else 
@@ -20,6 +21,7 @@ Student_Document.Save_Student_Document(req.body, function (err, rows)
   }
  catch (e) 
  {
+  console.log(e)
  }
  finally 
  {

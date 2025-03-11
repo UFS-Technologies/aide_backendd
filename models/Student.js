@@ -302,7 +302,7 @@ var Student = {
 	"@Branch_ :=?,"+"@Branch_Name_ :=?,"+"@By_User_Id_ :=?,"+"@By_User_Name_ :=?,"+"@Department_ :=?,"+"@Department_FollowUp_ :=?,"+"@Department_Name_ :=?,"+"@Department_Status_Name_ :=?,"+"@Next_FollowUp_Date_ :=?,"+
 	"@Remark_ :=?,"+"@Remark_id_ :=?,"+"@Status_ :=?,"+"@To_User_Name_ :=?,"+"@To_User_Id_ :=?,"+"@Student_Status_Id_ :=?,"+"@Agent_Id_ :=?,"+"@Flag_Student_ :=?,"+"@Flag_Followup_ :=?,"+
 	"@Phone_Change_ :=?,"+"@Email_Change_ :=?,"+"@Alternative_Email_Change_ :=?,"+"@Alternative_Phone_Number_Change_ :=?,"+"@Whatsapp_Change_ :=?,"+"@Department_Id_ :=?,"+"@Branch_Id_ :=?,"+"@Unique_Id_ :=?,"+"@Class_Id_ :=?,"+"@Class_Name_ :=?," +"@Guardian_telephone_ :=?," +
-	"@Counsilor_Note_ :=?," +"@BPH_Note_ :=?," +"@Pre_Visa_Note_ :=?," +"@Sub_Status_Id_ :=?," +"@Sub_Status_Name_ :=?,"+"@Status_Type_Id_ :=?," +"@Status_Type_Name_ :=?," +"@Class_Order_ :=?,"  +"@Refund_Amount_ :=?," +"@Refund_Description_ :=?"  +
+	"@Counsilor_Note_ :=?," +"@BPH_Note_ :=?," +"@Pre_Visa_Note_ :=?," +"@Sub_Status_Id_ :=?," +"@Sub_Status_Name_ :=?,"+"@Status_Type_Id_ :=?," +"@Status_Type_Name_ :=?," +"@Class_Order_ :=?,"  +"@Refund_Amount_ :=?," +"@Refund_Description_ :=?,"  + "@Code_ :=?" +
 	")"
     ,[Profile_.Student_Id,Profile_.Enquiry_Source_Id,Profile_.Enquiry_Source_Name,Profile_.Enquiryfor_Id,
 		Profile_.Enquirfor_Name,Profile_.Shore_Id,Profile_.Shore_Name,Profile_.Enquiry_Mode_Id,Profile_.Enquiry_Mode_Name,Profile_.Program_Course_Id,
@@ -313,7 +313,7 @@ var Student = {
 		FollowUp_.Branch,FollowUp_.Branch_Name,FollowUp_.By_User_Id,FollowUp_.By_User_Name,FollowUp_.Department,FollowUp_.Department_FollowUp,FollowUp_.Department_Name,FollowUp_.Department_Status_Name,FollowUp_.Next_FollowUp_Date,
 		FollowUp_.Remark,FollowUp_.Remark_id,FollowUp_.Status_Id,FollowUp_.To_User_Name,FollowUp_.To_User_Id,Profile_.Student_Status_Id,Profile_.Agent_Id,Profile_.Flag_Student,Profile_.Flag_Followup,
 		Profile_.Phone_Change,Profile_.Email_Change,Profile_.Alternative_Email_Change,Profile_.Alternative_Phone_Number_Change,Profile_.Whatsapp_Change,Profile_.Department_Id,Profile_.Branch_Id,Unique_Id_,FollowUp_.Class_Id,FollowUp_.Class_Name,Profile_.Guardian_telephone,
-		Profile_.Counsilor_Note,Profile_.BPH_Note,Profile_.Pre_Visa_Note,FollowUp_.Sub_Status_Id,FollowUp_.Sub_Status_Name,FollowUp_.Status_Type_Id,FollowUp_.Status_Type_Name,FollowUp_.Class_Order,Profile_.Refund_Amount,Profile_.Refund_Description
+		Profile_.Counsilor_Note,Profile_.BPH_Note,Profile_.Pre_Visa_Note,FollowUp_.Sub_Status_Id,FollowUp_.Sub_Status_Name,FollowUp_.Status_Type_Id,FollowUp_.Status_Type_Name,FollowUp_.Class_Order,Profile_.Refund_Amount,Profile_.Refund_Description, Profile_.Code
 	],callback);
     },
 
@@ -9937,6 +9937,40 @@ Get_ToStaff_Student_DataCount_Excel:function(Branch_,Followup_Date_,Department_,
 			console.log(e)
 		}
 		
+
+        return {
+            returnvalue: {
+                Leads,
+            },
+        };
+    },
+	Get_User_Lead: async function (
+        Fromdate_,
+        Todate_,
+        Branch_,
+        Is_Date_Check_,
+        Page_Index1_,
+        Page_Index2_,
+        Login_User_Id_,
+        RowCount,
+        RowCount2,
+        To_User_
+    ) {
+        var Leads = [];
+        try {
+        Leads = await new storedProcedure("Get_User_Lead", [
+            Fromdate_,
+            Todate_,
+            Branch_,
+            Is_Date_Check_,
+            Page_Index1_,
+            Page_Index2_,
+            Login_User_Id_,
+            RowCount,
+            RowCount2,
+            To_User_
+            ]).result();
+        } catch (e) {}
 
         return {
             returnvalue: {

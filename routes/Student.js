@@ -5256,74 +5256,145 @@ finally
 {
 }
 });
-router.post('/Save_Student_Document', (req, res, next) =>
-{
-  try
-  {
-    const file = req.files
+// router.post('/Save_Student_Document', (req, res, next) =>
+// {
+//   try
+//   {
+// 	console.log(req.body,'req.body')
+//     const file = req.files
     
-        var Image;
-        var Photo_ = [];
+//         var Image;
+//         var Photo_ = [];
     
-    if (!file) 
-    {
-    }
-    else
-    {
-      for (var i = 0; i < req.body.Document_File_Array; i++) 
-      {
-        if(i==req.body.ImageFile_Doc)
-		Image=file[i].filename; 
-      }
-    }
-      var Docs
+//     if (!file) 
+//     {
+//     }
+//     else
+//     {
+//       for (var i = 0; i < req.body.Document_File_Array; i++) 
+//       {
+//         if(i==req.body.ImageFile_Doc)
+// 		Image=file[i].filename; 
+//       }
+//     }
+//       var Docs
     
-      Docs =
-      {   
-		"Student_Document_Id":req.body.Student_Document_Id,
-		"Student_Id": req.body.Student_Id,
-		"Image":Image,
-		"File_Name":req.body.File_Name,
-		"Description":req.body.Description,
-		"Document_Id":req.body.Document_Id,
-		"Document_Name":req.body.Document_Name
-      };
+//       Docs =
+//       {   
+// 		"Student_Document_Id":req.body.Student_Document_Id,
+// 		"Student_Id": req.body.Student_Id,
+// 		"Image":Image,
+// 		"File_Name":req.body.File_Name,
+// 		"Description":req.body.Description,
+// 		"Document_Id":req.body.Document_Id,
+// 		"Document_Name":req.body.Document_Name
+//       };
 
-    //  console.log(Schooling1)
-    var jsondata1 = JSON.stringify(Docs)
-    var Docs_Data=
-    {
-      "Docs_D": jsondata1,
-    };
-    Student.Save_Student_Document(Docs_Data, function (err, rows)
-        {
+//     //  console.log(Schooling1)
+//     var jsondata1 = JSON.stringify(Docs)
+//     var Docs_Data=
+//     {
+//       "Docs_D": jsondata1,
+//     };
+//     Student.Save_Student_Document(Docs_Data, function (err, rows)
+//         {
          
-        if (err) 
-        {
-			console.log(err)
-          return 1;
-        }
-        else
-        {
-          return res.json(rows);
-        }
-      });
+//         if (err) 
+//         {
+// 			console.log(err)
+//           return 1;
+//         }
+//         else
+//         {
+//           return res.json(rows);
+//         }
+//       });
     
-  }
+//   }
 
-  catch (err) 
-  {
+//   catch (err) 
+//   {
     
-    const error = new Error('Please upload a file')
-    error.httpStatusCode = 400
-    return next(error)
-  }
-    finally 
-    {
-    }
-  }
-);
-
+//     const error = new Error('Please upload a file')
+//     error.httpStatusCode = 400
+//     return next(error)
+//   }
+//     finally 
+//     {
+//     }
+//   }
+// );
+router.post('/Save_Student_Document',
+	upload.array("myFile"), //line to add
+	(req, res, next) =>
+	{
+	  try
+	  {
+		console.log(req.body);
+		
+		const file = req.files
+		
+			var Image;
+			var Photo_ = [];
+		
+		if (!file) 
+		{
+		}
+		else
+		{
+		  for (var i = 0; i < req.body.Document_File_Array; i++) 
+		  {
+			if(i==req.body.ImageFile_Doc)
+			Image=file[i].filename; 
+		  }
+		}
+		  var Docs
+		
+		  Docs =
+		  {   
+			"Student_Document_Id":req.body.Student_Document_Id,
+			"Student_Id": req.body.Student_Id,
+			"Image":Image,
+			"File_Name":req.body.File_Name,
+			"Description":req.body.Description,
+			"Document_Id":req.body.Document_Id,
+			"Document_Name":req.body.Document_Name
+		  };
+	
+		//  console.log(Schooling1)
+		var jsondata1 = JSON.stringify(Docs)
+		var Docs_Data=
+		{
+		  "Docs_D": jsondata1,
+		};
+		Student.Save_Student_Document(Docs_Data, function (err, rows)
+			{
+			 
+			if (err) 
+			{
+				console.log(err)
+			  return 1;
+			}
+			else
+			{
+			  return res.json(rows);
+			}
+		  });
+		
+	  }
+	
+	  catch (err) 
+	  {
+		
+		const error = new Error('Please upload a file')
+		error.httpStatusCode = 400
+		return next(error)
+	  }
+		finally 
+		{
+		}
+	  }
+	);
 router.get('/Search_Conditions/:Application_details_Id_?',function(req,res,next)
 { 
 try 
@@ -5545,4 +5616,32 @@ router.get('/Get_ToStaff_Student_DataCount_Excel/:Branch_?/:Followup_Date_?/:Dep
         }
     }
 );
+
+
+router.get(
+    "/Get_User_Lead/:Fromdate_?/:Todate_?/:Branch_?/:Is_Date_Check_?/:Page_Index1_?/:Page_Index2_?/:Login_User_Id_?/:RowCount?/:RowCount2?/:To_User_?",
+    async function (req, res, next) {
+        var result = "";
+        try {
+            result = await Student.Get_User_Lead(
+                req.params.Fromdate_,
+                req.params.Todate_,
+                req.params.Branch_,
+                req.params.Is_Date_Check_,
+                req.params.Page_Index1_,
+                req.params.Page_Index2_,
+                req.params.Login_User_Id_,
+                req.params.RowCount,
+                req.params.RowCount2,
+                req.params.To_User_
+            );
+
+            res.json(result);
+        } catch (e) {
+            ;
+        } finally {
+        }
+    }
+);
+
 module.exports = router;
